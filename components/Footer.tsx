@@ -80,7 +80,7 @@ export default function Footer() {
                             <div>
                                 <h4 className="text-white font-bold mb-4">Contact</h4>
                                 <address className="not-italic leading-relaxed">
-                                    Liberty Germany GmbH<br />
+                                    Privé Germany GmbH<br />
                                     F.W. Raiffeisenstrasse 15061<br />
                                     Elsbethen, Salzburg Austria
                                 </address>
@@ -110,7 +110,7 @@ export default function Footer() {
                 {/* Watermark */}
                 <div className="relative w-full overflow-hidden pointer-events-none select-none pt-12">
                     <h1 className="text-[15vw] leading-none font-bold text-white/5 text-center -mb-12 tracking-tighter font-display">
-                        LIBERTY
+                        PRIVÉ
                     </h1>
                     <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-[#050505] to-transparent"></div>
                 </div>

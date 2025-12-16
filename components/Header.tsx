@@ -23,11 +23,11 @@ export default function Header() {
                         {/* Logo */}
                         <div className="flex items-center gap-2">
                             <div className="w-8 h-8 bg-gradient-to-br from-orange-400 to-amber-600 rounded-lg flex items-center justify-center text-black font-bold text-xs shadow-lg shadow-orange-500/20">
-                                <span className="transform -rotate-12">L</span>
+                                <span className="transform -rotate-12">P</span>
                             </div>
                             <div className="flex flex-col">
                                 <span className="text-sm font-semibold tracking-tight text-white/90 leading-none">
-                                    LIBERTY
+                                    PRIVÉ
                                 </span>
                                 <span className="text-[10px] text-zinc-400 uppercase tracking-widest hidden sm:block">
                                     International

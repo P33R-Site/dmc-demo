@@ -20,7 +20,7 @@ export default function SocialFeeds() {
                         />
                         <div className="relative z-10 text-center">
                             <Instagram className="w-12 h-12 text-white mx-auto mb-4" />
-                            <span className="text-white font-medium">@liberty_tourism</span>
+                            <span className="text-white font-medium">@prive_international</span>
                         </div>
                     </div>
 
@@ -31,7 +31,7 @@ export default function SocialFeeds() {
                                 <div className="w-8 h-8 bg-blue-600 rounded-full"></div>
                                 <div>
                                     <div className="text-xs font-bold text-gray-800">
-                                        Liberty International Tourism Group
+                                        Privé International Tourism Group
                                     </div>
                                     <div className="text-[10px] text-gray-500">
                                         11,159 followers

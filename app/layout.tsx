@@ -8,7 +8,7 @@ const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jet
 const greatVibes = Great_Vibes({ weight: "400", subsets: ["latin"], variable: "--font-great-vibes" });
 
 export const metadata: Metadata = {
-  title: "Liberty International Tourism Group",
+  title: "Bank of PRV8 | PRV8 International",
   description: "The largest privately owned Destination Management Company (DMC)",
 };
 

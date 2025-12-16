@@ -59,7 +59,7 @@ export default function Hero() {
                 </div>
 
                 <h1 className="text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tighter text-white mb-6 drop-shadow-2xl">
-                    Liberty International
+                    Privé International
                     <br />
                     <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60">
                         Tourism Group
@@ -73,7 +73,7 @@ export default function Hero() {
                 </div>
 
                 <p className="font-script text-3xl md:text-5xl text-zinc-300 transform -rotate-2 mb-12 text-shadow-sm">
-                    Experience Travel with Liberty <br />
+                    Experience Travel with Privé <br />
                     <span className="text-white">Personal Touch Worldwide</span>
                 </p>
 

@@ -8,7 +8,7 @@ export default function Contact() {
             <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-12">
                     <p className="font-script text-3xl text-zinc-400 mb-2">
-                        Experience Travel with Liberty
+                        Experience Travel with PRV8
                     </p>
                     <h2 className="text-4xl font-semibold text-white tracking-tight">
                         Get in Touch
@@ -66,7 +66,7 @@ export default function Contact() {
                                 className="text-[10px] text-zinc-500 leading-tight"
                             >
                                 I agree to receive marketing communications and updates from
-                                Liberty International Tourism Group and their partners. I
+                                Bank of PRV8 and their partners. I
                                 understand that my details will be used in accordance with the
                                 privacy policy.
                             </label>

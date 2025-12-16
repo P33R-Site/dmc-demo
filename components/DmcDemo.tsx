@@ -8,9 +8,10 @@ type Step = "ENTRY" | "REQUEST" | "ITINERARY" | "CONSOLE" | "REFINEMENT" | "CONF
 
 export default function DmcDemo() {
     const [isOpen, setIsOpen] = useState(false);
+    const [hasBeenOpened, setHasBeenOpened] = useState(false);
     const [step, setStep] = useState<Step>("ENTRY");
     const [messages, setMessages] = useState<{ role: "ai" | "user"; text: string }[]>([
-        { role: "ai", text: "I'll design your journey and coordinate directly with Liberty International's on-ground team." }
+        { role: "ai", text: "I'll design your journey and coordinate directly with Privé International's on-ground team." }
     ]);
     const [inputValue, setInputValue] = useState("");
     const [isPartnerView, setIsPartnerView] = useState(false);
@@ -41,12 +42,12 @@ export default function DmcDemo() {
             case "REQUEST":
                 setMessages(prev => [...prev,
                 { role: "user", text: "10 days in Italy for two couples — Rome, Florence, Amalfi." },
-                { role: "ai", text: "I'll prepare a structured itinerary and coordinate execution with Liberty International." }
+                { role: "ai", text: "I'll prepare a structured itinerary and coordinate execution with Privé International." }
                 ]);
                 setStep("ITINERARY");
                 setTimeout(() => setShowItinerary(true), 1500);
                 setTimeout(() => {
-                    setMessages(prev => [...prev, { role: "ai", text: "This draft optimizes routing and flow. Liberty International will finalize guides, access, and experiences." }]);
+                    setMessages(prev => [...prev, { role: "ai", text: "This draft optimizes routing and flow. Privé International will finalize guides, access, and experiences." }]);
                 }, 3000);
                 break;
             case "ITINERARY":
@@ -55,13 +56,13 @@ export default function DmcDemo() {
             case "CONSOLE":
                 setStep("REFINEMENT");
                 setIsPartnerView(false);
-                setMessages(prev => [...prev, { role: "ai", text: "Liberty recommends adjusting the Amalfi segment to avoid peak congestion. Shall I apply the update?" }]);
+                setMessages(prev => [...prev, { role: "ai", text: "Privé International recommends adjusting the Amalfi segment to avoid peak congestion. Shall I apply the update?" }]);
                 break;
             case "REFINEMENT":
                 setStep("CONFIRMATION");
                 setMessages(prev => [...prev,
                 { role: "user", text: "Yes, please apply the update." },
-                { role: "ai", text: "Liberty International will manage your journey end-to-end. I'll retain your preferences for future trips." }
+                { role: "ai", text: "Privé International will manage your journey end-to-end. I'll retain your preferences for future trips." }
                 ]);
                 break;
         }
@@ -89,13 +90,24 @@ export default function DmcDemo() {
 
     if (!isOpen) {
         return (
-            <button
-                onClick={() => setIsOpen(true)}
-                className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-orange-500 rounded-full shadow-[0_0_40px_rgba(249,115,22,0.5)] flex items-center justify-center hover:scale-110 transition-transform cursor-pointer group"
-            >
-                <MessageSquare className="w-8 h-8 text-white fill-white" />
-                <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full border-2 border-[#050505]"></div>
-            </button>
+            <div className="fixed bottom-6 right-6 z-50">
+                <button
+                    onClick={() => {
+                        setIsOpen(true);
+                        setHasBeenOpened(true);
+                    }}
+                    className="w-16 h-16 rounded-full shadow-[0_0_40px_rgba(249,115,22,0.5)] flex items-center justify-center hover:scale-110 transition-transform cursor-pointer group overflow-hidden border-2 border-orange-500"
+                >
+                    <img
+                        src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=200&auto=format&fit=crop"
+                        alt="AI Concierge"
+                        className="w-full h-full object-cover"
+                    />
+                </button>
+                {!hasBeenOpened && (
+                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full border-2 border-[#050505] animate-pulse pointer-events-none"></div>
+                )}
+            </div>
         );
     }
 
@@ -112,7 +124,7 @@ export default function DmcDemo() {
                         </div>
                         <div>
                             <h3 className="text-sm font-semibold text-white">Luxury Travel Concierge</h3>
-                            <p className="text-[10px] text-zinc-400">Powered by <span className="text-orange-400 font-medium">Liberty International</span></p>
+                            <p className="text-[10px] text-zinc-400">Powered by <span className="text-orange-400 font-medium">PRV8</span></p>
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -204,7 +216,7 @@ export default function DmcDemo() {
                                     <div className="flex items-center justify-between mb-8">
                                         <h2 className="text-xl font-bold text-white flex items-center gap-2">
                                             <Shield className="w-5 h-5 text-orange-500" />
-                                            Liberty Partner Console
+                                            Privé International Partner Console
                                         </h2>
                                         <span className="px-3 py-1 bg-green-500/20 text-green-400 text-[10px] rounded-full uppercase font-bold tracking-wider">
                                             Verified Intent
@@ -301,7 +313,7 @@ export default function DmcDemo() {
 
                                         {/* Key Narration */}
                                         <div className="mt-6 p-4 bg-indigo-500/10 border border-indigo-500/20 rounded-lg">
-                                            <p className="text-xs text-indigo-300 italic text-center">"PRV-8 feeds Liberty structured, qualified intent — not random requests."</p>
+                                            <p className="text-xs text-indigo-300 italic text-center">"PRV-8 feeds Privé International structured, qualified intent — not random requests."</p>
                                         </div>
                                     </div>
                                 </div>
@@ -427,7 +439,7 @@ export default function DmcDemo() {
 
                         <div className="space-y-4 text-sm">
                             <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
-                                <h4 className="text-green-400 font-bold mb-2">✅ What This Demo Tells Liberty</h4>
+                                <h4 className="text-green-400 font-bold mb-2">✅ What This Demo Tells Privé International</h4>
                                 <ul className="text-green-300 space-y-1 text-xs">
                                     <li>• You don't replace them</li>
                                     <li>• You don't commoditize them</li>

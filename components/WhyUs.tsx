@@ -24,7 +24,7 @@ export default function WhyUs() {
                         Why Us
                     </h2>
                     <p className="text-zinc-400 max-w-2xl text-lg font-light leading-relaxed">
-                        Liberty International Tourism Group is the largest privately owned
+                        Privé International Tourism Group is the largest privately owned
                         Destination Management Company (DMC) delivering professional
                         services with our knowledge, expertise and resources.
                     </p>
@@ -130,17 +130,17 @@ export default function WhyUs() {
 
                         <div>
                             <h3 className="text-2xl text-white font-medium mb-4">
-                                What makes Liberty the{" "}
+                                What makes Privé the{" "}
                                 <span className="text-orange-500">best DMC?</span>
                             </h3>
                             <p className="text-zinc-400 text-sm leading-relaxed max-w-2xl mb-4">
-                                "I founded Liberty International Tourism Group in 1991 with a
+                                "I founded Privé International Tourism Group in 1991 with a
                                 clear vision: to build the world's leading independent
                                 Destination Management Company (DMC). More than 30 years later,
-                                Liberty has reshaped global travel."
+                                Privé has reshaped global travel."
                             </p>
                             <p className="text-zinc-500 text-xs italic">
-                                At Liberty, personalisation isn't a luxury—it's our standard.
+                                At Privé, personalisation isn't a luxury—it's our standard.
                                 We create unforgettable experiences tailored to your vision.
                             </p>
                         </div>
