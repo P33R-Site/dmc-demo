@@ -6,7 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ThemePresetProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { Val8Provider } from "@/components/val8/Val8Context";
-import { Val8Widget } from "@/components/val8/Val8Widget";
+import { Val8Widget } from "@/components/val8/Val8ChatWidget";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains-mono" });
