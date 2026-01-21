@@ -1,4 +1,4 @@
-// Sample slideshow images for dashboard widgets
+// Sample slideshow images for dashboard widgets - Using local demo images
 
 export const SLIDESHOW_IMAGES = {
     destinations: [

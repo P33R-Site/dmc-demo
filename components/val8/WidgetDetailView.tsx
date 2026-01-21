@@ -133,8 +133,8 @@ const FlightConfig = ({ data, onChange, onViewMore }: { data: DashboardState['fl
         <div className="space-y-2">
             <label className="text-xs uppercase tracking-wider text-text-muted dark:text-white/40 font-bold">Class</label>
             <select value={data.class} onChange={(e) => onChange('class', e.target.value)} className="w-full bg-surface-alt dark:bg-white/5 border border-border-subtle dark:border-white/10 rounded-xl px-4 py-3 text-text-primary dark:text-white focus:ring-1 focus:ring-primary focus:outline-none appearance-none">
+                <option>Business Class</option>
                 <option>Economy</option>
-                <option>Business</option>
                 <option>First Class</option>
             </select>
         </div>
@@ -163,6 +163,7 @@ const StayConfig = ({ data, onChange, onViewMore }: { data: DashboardState['stay
             <div className="space-y-2">
                 <label className="text-xs uppercase tracking-wider text-text-muted dark:text-white/40 font-bold">Room Type</label>
                 <select value={data.roomType} onChange={(e) => onChange('roomType', e.target.value)} className="w-full bg-surface-alt dark:bg-white/5 border border-border-subtle dark:border-white/10 rounded-xl px-4 py-3 text-text-primary dark:text-white focus:ring-1 focus:ring-primary focus:outline-none appearance-none">
+                    <option>King Suite</option>
                     <option>Standard</option>
                     <option>Suite</option>
                     <option>Penthouse Suite</option>

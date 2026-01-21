@@ -1,37 +1,23 @@
 import React from 'react';
-import { Car } from 'lucide-react';
-import Image from 'next/image';
 
 import { DashboardState } from '../val8/Dashboard';
 
 export const RideWidget: React.FC<{ data: DashboardState['ride'] }> = ({ data }) => {
     return (
-        <div className="h-full p-5 flex flex-col items-center justify-center relative overflow-hidden group">
-            <Image
+        <div className="h-full relative overflow-hidden glass-card cursor-pointer group">
+            <img
                 src="/images/demo/ride-luxury-suv.png"
                 alt="Ride"
-                fill
-                className="object-cover opacity-20 group-hover:scale-105 transition-transform duration-700"
-                sizes="(max-width: 768px) 100vw, 300px"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             />
-            <div className="absolute inset-0 bg-gradient-to-br from-surface-alt/50 to-transparent dark:from-white/5" />
-
-            <div className="relative z-10 text-center w-full px-4">
-                <p className="w-full bg-transparent border-none p-0 text-text-muted dark:text-white/60 text-[10px] font-bold uppercase tracking-widest mb-3 text-center focus:ring-0 focus:outline-none">
-                    Ride Agent
-                </p>
-                <div className="flex items-center justify-center gap-2 mb-2">
-                    <Car className="w-5 h-5 text-text-primary dark:text-white flex-shrink-0" />
-                    <div className="cursor-pointer hover:bg-white/10 rounded px-2 py-1 transition-colors">
-                        <span className="text-xl font-serif text-text-primary dark:text-white text-center">{data.serviceLevel}</span>
-                    </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent" />
+            <div className="relative h-full p-6 flex flex-col justify-end">
+                <div className="flex items-center justify-between mb-2">
+                    <span className="px-2 py-1 rounded-full bg-green-500/90 text-white text-xs font-medium">Scheduled</span>
                 </div>
-                <p className="w-full bg-transparent border-none p-0 text-text-primary dark:text-white font-medium text-sm text-center focus:ring-0 focus:outline-none">
-                    Advance Reserve
-                </p>
-                <p className="w-full bg-transparent border-none p-0 text-text-muted dark:text-white/40 text-[10px] mt-1 text-center focus:ring-0 focus:outline-none overflow-hidden whitespace-pre-line">
-                    {data.pickup}
-                </p>
+                <h3 className="text-xl font-medium text-white mb-1">Ride Agent</h3>
+                <p className="text-white/80 text-sm">{data.serviceLevel}</p>
+                <p className="text-white/60 text-xs mt-2">🚗 {data.pickup}</p>
             </div>
         </div>
     );

@@ -61,7 +61,7 @@ const MODERN_HOTELS: HotelCard[] = [
 ];
 
 export const ChatInterface: React.FC = () => {
-  const { chatHistory, addMessage, userIntent, setUserIntent, setSelectedHotel, setBookingState, isDemoMode, demoStep, setDemoStep, isExpanded, setDemoPhase, setView } = useVal8();
+  const { chatHistory, addMessage, userIntent, setUserIntent, setSelectedHotel, setBookingState, isDemoMode, demoStep, setDemoStep, demoPhase, setDemoPhase, isExpanded, setView } = useVal8();
   const { speak, stop } = useTextToSpeech();
   const [inputValue, setInputValue] = useState('');
   const [cards, setCards] = useState<HotelCard[]>(INITIAL_HOTELS);
@@ -75,38 +75,47 @@ export const ChatInterface: React.FC = () => {
     }
   }, [isExpanded, isDemoMode, stop]);
 
-  // Demo Script for Liberty International - Italy Trip
-  // Based on dmc demo.md specification
+  // Demo Script for Visit Dubai - 8 Step Conversation
   const DEMO_SCRIPT = [
     {
-      userText: "10 days in Italy for two couples — Rome, Florence, Amalfi.",
-      aiResponse: "Perfect. I'll prepare a structured itinerary and coordinate execution with Liberty International's on-ground team.",
+      userText: "I'm planning a trip to Dubai.",
+      aiResponse: "Excellent choice. When are you planning to travel?",
       nextStep: 1
     },
     {
-      userText: "What does the routing look like?",
-      aiResponse: "This draft optimizes routing and flow: 3 nights Rome, 3 nights Florence, 4 nights Amalfi. Liberty International will finalize guides, access, and experiences.",
+      userText: "June 5th to 9th.",
+      aiResponse: "Noted. Weather is expected to be 95° and sunny. Let's start with flights. I found an early AM departure from SFO on your preferred carrier, Emirates, Business Class, nonstop. Want me to hold seats?",
       nextStep: 2
     },
     {
-      userText: "Can you show me hotels?",
-      aiResponse: "I've curated luxury properties for each city. Hotel de Russie in Rome, Four Seasons Firenze in Florence, and Belmond Caruso on the Amalfi Coast. Shall I proceed?",
+      userText: "Yes.",
+      aiResponse: "Done. I'd recommend The Royal Mirage for your stay. Arabian Court Suite with Sea View. Secure it?",
       nextStep: 3
     },
     {
-      userText: "Yes, proceed.",
-      aiResponse: "Rooms held. Liberty International has noted a recommendation: adjusting the Amalfi segment to avoid peak congestion in early June. Shall I apply this update?",
+      userText: "Secure it.",
+      aiResponse: "Locked in. Complimentary Chauffeur-drive service is included with your flight. Shall I schedule the pickup?",
       nextStep: 4
     },
     {
-      userText: "Yes, apply it.",
-      aiResponse: "Updated. I've also arranged private transfers between cities and a vintage Fiat 500 tour in Tuscany. Liberty International will manage all logistics.",
+      userText: "Yes, schedule it.",
+      aiResponse: "Confirmed. For dining, I've found a table at Ossiano — underwater fine dining. Friday at 8pm?",
       nextStep: 5
     },
     {
-      userText: "This looks great.",
-      aiResponse: "Liberty International will manage your journey end-to-end. I'll retain your preferences for future trips. Ready for confirmation?",
+      userText: "That sounds amazing. Book it.",
+      aiResponse: "Reserved. Also — high SPF sunscreen is recommended for the desert sun. Shall I have SunSport SPF 50 waiting in your suite?",
       nextStep: 6
+    },
+    {
+      userText: "Yes please.",
+      aiResponse: "Added. Finally, a private desert safari with vintage Land Rovers is highly rated. Shall I add this experience?",
+      nextStep: 7
+    },
+    {
+      userText: "Yes, add it.",
+      aiResponse: "Done. Your Dubai itinerary is fully organized. Please review the summary below and complete your checkout.",
+      nextStep: 8
     }
   ];
 
@@ -185,43 +194,47 @@ export const ChatInterface: React.FC = () => {
 
   const handleSend = () => {
     if (isDemoMode) {
-      // Manual Mode Logic
+      // Demo Mode: Accept any input and proceed with the scripted response
       if (!inputValue.trim()) return;
 
-      const currentStep = DEMO_SCRIPT[demoStep];
-      // Robust matching: normalize both strings by removing non-alphanumeric chars and lowercase
-      const normalize = (str: string) => str.toLowerCase().replace(/[^a-z0-9]/g, '');
+      // Prevent sending while AI is still responding/speaking
+      if (demoPhase !== 'idle') {
+        return;
+      }
 
-      if (currentStep && normalize(inputValue).includes(normalize(currentStep.userText))) {
-        // Proceed with the demo step manually
-        setDemoPhase('typing'); // Briefly set typing to transition
-        setInputValue('');
+      const currentStep = DEMO_SCRIPT[demoStep];
+      if (!currentStep) return; // No more steps
+
+      // Proceed with the demo - use user's actual input, respond with script
+      setDemoPhase('typing');
+      const userMessage = inputValue.trim();
+      setInputValue('');
+
+      addMessage({
+        sender: 'user',
+        text: userMessage, // Show what user actually typed
+        type: 'text'
+      });
+      setDemoPhase('processing');
+
+      // Trigger AI Response Sequence
+      setTimeout(() => {
+        setDemoPhase('responding');
         addMessage({
-          sender: 'user',
-          text: currentStep.userText, // Use script text for consistency
+          sender: 'val8',
+          text: currentStep.aiResponse,
           type: 'text'
         });
-        setDemoPhase('processing');
 
-        // Trigger AI Response Sequence
-        setTimeout(() => {
-          setDemoPhase('responding');
-          addMessage({
-            sender: 'val8',
-            text: currentStep.aiResponse,
-            type: 'text'
-          });
-
-          speak(currentStep.aiResponse, () => {
-            setTimeout(() => {
-              setDemoPhase('idle');
-              if (currentStep.nextStep !== undefined) {
-                setDemoStep(currentStep.nextStep);
-              }
-            }, 500);
-          });
-        }, 1000);
-      }
+        speak(currentStep.aiResponse, () => {
+          setTimeout(() => {
+            setDemoPhase('idle');
+            if (currentStep.nextStep !== undefined) {
+              setDemoStep(currentStep.nextStep);
+            }
+          }, 500);
+        });
+      }, 1000);
       return;
     }
 
@@ -391,7 +404,7 @@ export const ChatInterface: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <h2 className="text-3xl font-serif text-text-primary dark:text-white mb-8 leading-tight">
+            <h2 className="text-3xl font-serif text-white mb-8 leading-tight">
               Where are you <br />
               <span className="text-primary italic">thinking of going?</span>
             </h2>
@@ -410,37 +423,39 @@ export const ChatInterface: React.FC = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.4 + i * 0.1 }}
                 onClick={() => handleQuickAction(item.action)}
-                className="flex flex-col items-center justify-center p-4 bg-surface-alt dark:bg-white/5 hover:bg-surface dark:hover:bg-white/10 border border-border-subtle dark:border-white/5 hover:border-primary/30 rounded-xl transition-all group"
+                className="flex flex-col items-center justify-center p-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-primary/50 rounded-xl transition-all group"
               >
-                <item.icon className="w-5 h-5 text-text-muted dark:text-white/60 group-hover:text-primary mb-2 transition-colors" />
-                <span className="text-xs text-text-secondary dark:text-white/80 font-light">{item.label}</span>
+                <item.icon className="w-5 h-5 text-white/60 group-hover:text-primary mb-2 transition-colors" />
+                <span className="text-xs text-white/80 font-light">{item.label}</span>
               </motion.button>
             ))}
           </div>
         </div>
 
         {/* Input Area (Shared - Unified Style) */}
-        <div className="p-4 bg-surface dark:glass-card border-x-0 border-b-0">
+        <div className="p-4 bg-transparent border-t border-white/10">
           <div className="relative">
             <input
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Tell me anything..."
-              className="w-full bg-surface-alt dark:bg-black/20 text-text-primary dark:text-white placeholder-text-muted dark:placeholder-white/30 rounded-xl pl-4 pr-20 py-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary border border-border-subtle dark:border-white/5 transition-all"
+              placeholder={demoPhase !== 'idle' ? "Listening..." : "Tell me anything..."}
+              disabled={demoPhase !== 'idle'}
+              className={`w-full bg-white/5 text-white placeholder-white/40 rounded-xl pl-4 pr-20 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary border border-white/10 transition-all backdrop-blur-md ${demoPhase !== 'idle' ? 'opacity-50 cursor-not-allowed' : ''}`}
             />
             <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
               <button
                 type="button"
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted dark:text-white/40 hover:text-primary hover:bg-primary/10 transition-colors"
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-white/40 hover:text-primary hover:bg-white/10 transition-colors"
                 title="Voice input"
               >
                 <Mic className="w-4 h-4" />
               </button>
               <button
                 onClick={handleSend}
-                className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-surface hover:bg-primary-soft transition-colors"
+                disabled={!inputValue.trim() || demoPhase !== 'idle'}
+                className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-light transition-colors"
               >
                 <Send className="w-4 h-4" />
               </button>
@@ -465,8 +480,8 @@ export const ChatInterface: React.FC = () => {
             {msg.type === 'text' ? (
               <div
                 className={`max-w-[85%] p-4 rounded-2xl ${msg.sender === 'user'
-                  ? 'bg-surface-alt dark:bg-white/10 text-text-primary dark:text-white rounded-tr-sm backdrop-blur-md border border-border-subtle dark:border-white/5'
-                  : 'bg-primary/10 text-text-primary dark:text-white rounded-tl-sm border border-primary/20'
+                  ? 'bg-white/10 text-white rounded-tr-sm backdrop-blur-md border border-white/20'
+                  : 'bg-primary/20 text-white rounded-tl-sm border border-primary/30'
                   }`}
               >
                 <p className="text-sm leading-relaxed font-light">{msg.text}</p>
@@ -477,7 +492,7 @@ export const ChatInterface: React.FC = () => {
                   <button
                     key={option}
                     onClick={() => handleQuickAction(option)}
-                    className="px-4 py-2 rounded-full bg-surface-alt dark:bg-white/5 border border-border-subtle dark:border-white/10 text-xs text-text-secondary dark:text-white/70 hover:bg-primary hover:text-surface hover:border-primary transition-all duration-300"
+                    className="px-4 py-2 rounded-full bg-white/5 border border-white/20 text-xs text-white/80 hover:bg-primary hover:text-white hover:border-primary transition-all duration-300"
                   >
                     {option}
                   </button>
@@ -485,7 +500,7 @@ export const ChatInterface: React.FC = () => {
               </div>
             ) : msg.type === 'card-stack' ? (
               <div className="w-full">
-                <div className="text-text-secondary dark:text-white/80 border-l border-border-subtle dark:border-white/10 pl-4 p-4 text-sm font-light mb-2">
+                <div className="text-white/80 border-l border-white/20 pl-4 p-4 text-sm font-light mb-2">
                   {msg.text}
                 </div>
                 {/* Render Carousel or Stack based on content preference */}
@@ -511,7 +526,7 @@ export const ChatInterface: React.FC = () => {
       </div>
 
       {/* Input Area */}
-      <div className="p-4 bg-surface dark:glass-card border-x-0 border-b-0">
+      <div className="p-4 bg-transparent border-t border-white/10">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -523,21 +538,22 @@ export const ChatInterface: React.FC = () => {
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Tell me anything..."
-            className="w-full bg-surface-alt dark:bg-black/20 text-text-primary dark:text-white placeholder-text-muted dark:placeholder-white/30 rounded-xl pl-4 pr-20 py-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary border border-border-subtle dark:border-white/5 transition-all"
+            placeholder={demoPhase !== 'idle' ? "Listening..." : "Tell me anything..."}
+            disabled={demoPhase !== 'idle'}
+            className={`w-full bg-white/5 text-white placeholder-white/40 rounded-xl pl-4 pr-20 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary border border-white/10 transition-all backdrop-blur-md ${demoPhase !== 'idle' ? 'opacity-50 cursor-not-allowed' : ''}`}
           />
           <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
             <button
               type="button"
-              className="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted dark:text-white/40 hover:text-primary hover:bg-primary/10 transition-colors"
+              className="w-8 h-8 rounded-lg flex items-center justify-center text-white/40 hover:text-primary hover:bg-white/10 transition-colors"
               title="Voice input"
             >
               <Mic className="w-4 h-4" />
             </button>
             <button
               type="submit"
-              disabled={!inputValue.trim()}
-              className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-surface disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-soft transition-colors"
+              disabled={!inputValue.trim() || demoPhase !== 'idle'}
+              className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-light transition-colors"
             >
               <Send className="w-4 h-4" />
             </button>
